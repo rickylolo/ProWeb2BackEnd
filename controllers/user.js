@@ -1,4 +1,6 @@
 const Users = require('../models/User')
+const bcrypt = require('bcrypt')
+
 const User = {
   get: async (req, res) => {
     const { id } = req.params
@@ -12,6 +14,14 @@ const User = {
   create: async (req, res) => {
     console.log(req.body)
     const user = new Users(req.body)
+
+    const isUser = await Users.findOne({ email: user.email })
+    if (isUser) {
+      return res.status(403).send('Usuario ya existente')
+    }
+    const salt = await bcrypt.genSalt()
+    user.password = await bcrypt.hash(user.password, salt)
+    user.salt = salt
     const savedUser = await user.save()
     res.status(201).send(savedUser.id)
   },
