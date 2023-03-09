@@ -1,4 +1,4 @@
-const Products = require('../models/product')
+const Products = require('../models/Product')
 
 const product = {
   get: async (req, res) => {
@@ -6,7 +6,7 @@ const product = {
     const product = await Products.findOne({ _id: id })
     res.status(200).send(product)
   },
-  product: async (req, res) => {
+  list: async (req, res) => {
     const product = await Products.find()
     res.status(200).send(product)
   },
