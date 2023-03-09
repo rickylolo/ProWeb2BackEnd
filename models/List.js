@@ -5,4 +5,4 @@ const Lists = mongoose.model('List', {
   user_ID: { type: String, required: true },
 })
 
-module.exports = Categories
+module.exports = Lists
