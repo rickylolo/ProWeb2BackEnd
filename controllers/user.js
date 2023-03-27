@@ -1,7 +1,6 @@
 const Users = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const expresJwt = require('express-jwt')
 
 const signToken = (_id) => jwt.sign({ _id }, 'hola')
 
@@ -26,6 +25,7 @@ const User = {
     }
   },
 
+  //Obtener datos del usuario
   get: async (req, res) => {
     const { id } = req.params
     const user = await Users.findOne({ _id: id })
