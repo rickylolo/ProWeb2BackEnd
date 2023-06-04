@@ -25,6 +25,7 @@ app.use('/api', productRoutes)
 app.use('/api', listRoutes)
 app.use('/api', categoryRoutes)
 
+mongoose.set('strictQuery', false)
 //Mi conexión mongoose
 mongoose.connect(
   'mongodb+srv://user:SPt2EjQXKV3iSNxS@proweb2.djh2qpr.mongodb.net/?retryWrites=true&w=majority'
@@ -36,5 +37,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log('Arrancando al aplicación')
+  console.log('Servidor escuchando en el puerto: ', port)
 })

@@ -11,6 +11,28 @@ const UserSchema = new Schema({
   avatar: { type: String, required: true },
   userType: { type: String, required: true },
   salt: { type: String, required: true },
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+  ],
+  lists: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'List',
+    },
+  ],
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
+  cart: {
+    type: Schema.Types.ObjectId,
+    ref: 'Cart',
+  },
 })
 
 // Creo modelo de usuario

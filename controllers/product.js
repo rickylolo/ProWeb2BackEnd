@@ -6,10 +6,12 @@ const product = {
     const product = await Products.findOne({ _id: id })
     res.status(200).send(product)
   },
+
   list: async (req, res) => {
     const product = await Products.find()
     res.status(200).send(product)
   },
+
   create: async (req, res) => {
     const product = new Products(req.body)
     try {
@@ -19,6 +21,7 @@ const product = {
       res.status(500).send(err.message)
     }
   },
+
   update: async (req, res) => {
     const { id } = req.params
     const product = await Products.findOne({ _id: id })
@@ -26,6 +29,7 @@ const product = {
     await product.save()
     res.sendStatus(204)
   },
+
   destroy: async (req, res) => {
     const { id } = req.params
     const product = await Products.findOne({ _id: id })
