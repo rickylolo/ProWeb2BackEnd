@@ -3,11 +3,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 // Guardo mis rutas
-const userRoutes = require('./routes/user')
-const reviewRoutes = require('./routes/review')
-const productRoutes = require('./routes/product')
-const listRoutes = require('./routes/list')
+const cartRoutes = require('./routes/cart')
 const categoryRoutes = require('./routes/category')
+const listRoutes = require('./routes/list')
+const productRoutes = require('./routes/product')
+const reviewRoutes = require('./routes/review')
+const userRoutes = require('./routes/user')
 
 // Creo mi aplicación express
 const app = express()
@@ -19,11 +20,12 @@ const port = process.env.PORT || 3000
 app.use(express.json())
 
 // Agrego mis rutas para crear los endpoints de las entidades
-app.use('/api', userRoutes)
-app.use('/api', reviewRoutes)
-app.use('/api', productRoutes)
-app.use('/api', listRoutes)
+app.use('/api', cartRoutes)
 app.use('/api', categoryRoutes)
+app.use('/api', listRoutes)
+app.use('/api', productRoutes)
+app.use('/api', reviewRoutes)
+app.use('/api', userRoutes)
 
 mongoose.set('strictQuery', false)
 //Mi conexión mongoose

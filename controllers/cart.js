@@ -16,7 +16,7 @@ const Cart = {
     const Cart = new Carts(req.body)
     try {
       await Cart.save()
-      res.status(201).send('Agregado a carrito')
+      res.status(201).send('Carrito Agregado Correctamente')
     } catch (err) {
       res.status(500).send(err.message)
     }
@@ -24,7 +24,7 @@ const Cart = {
   update: async (req, res) => {
     const { id } = req.params
     const Cart = await Carts.findOne({ _id: id })
-    Object.assign(user, req.body)
+    Object.assign(Cart, req.body)
     await Cart.save()
     res.sendStatus(204)
   },

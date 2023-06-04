@@ -22,7 +22,7 @@ const list = {
   update: async (req, res) => {
     const { id } = req.params
     const list = await Lists.findOne({ _id: id })
-    Object.assign(user, req.body)
+    Object.assign(list, req.body)
     await list.save()
     res.sendStatus(204)
   },

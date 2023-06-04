@@ -29,7 +29,7 @@ const Category = {
   update: async (req, res) => {
     const { id } = req.params
     const category = await Categories.findOne({ _id: id })
-    Object.assign(user, req.body)
+    Object.assign(category, req.body)
     await category.save()
     res.sendStatus(204)
   },

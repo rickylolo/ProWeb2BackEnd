@@ -6,11 +6,13 @@ const ListSchema = new Schema({
   name: { type: String, required: true },
   products: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'Product',
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+      quantity: { type: Number },
     },
   ],
-  quantity: { type: Number, required: true },
 })
 
 const Lists = mongoose.model('List', ListSchema)

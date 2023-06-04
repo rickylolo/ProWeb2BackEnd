@@ -1,5 +1,6 @@
 //Traigo mi modelo de usuario
 const Users = require('../models/User')
+const Carts = require('../models/Cart')
 //Modulo para encriptar la contraseña
 const bcrypt = require('bcrypt')
 //Modulo para generar JSON Web Tokens
@@ -14,14 +15,14 @@ const User = {
     try {
       const isUser = await Users.findOne({ email: user.email }) // Busco primeramente si hay un usuario con el mismo correo
       if (!isUser) {
-        res.status(403).send('Email o contraseña inválida') // Si es nulo significa que no trajo nada y por lo tanto se equivoco el usuario
+        res.status(403).send('No hay usuarios con esas credenciales') // Si es nulo significa que no trajo nada y por lo tanto se equivoco el usuario
       } else {
         const isMatch = await bcrypt.compare(user.password, isUser.password) // Aqui uso una funcion del bcrypt para comparar contraseña debido a que esta ya esta encriptada en la base de datos
         if (isMatch) {
           const signed = signToken(isUser._id) // Si finalmente hace match significa que el usuario ingreso satisfactoriamente
           res.status(200).send(signed) // Y regresamos el JSON Web Token
         } else {
-          res.status(403).send('Email o contraseña inválida')
+          res.status(403).send('No hay usuarios con esas credenciales')
         }
       }
     } catch (err) {
@@ -54,6 +55,12 @@ const User = {
       const signed = signToken(user.id) //Mi JSON WebToken
 
       await user.save() // Guardo al usuario
+      const cart = new Carts({ user: user.id }) // Creo el carrito de mi usuario
+      await cart.save() // Guardo mi carrito
+
+      // Actualizar el ID del carrito en el usuario
+      await Users.findOneAndUpdate({ _id: user._id }, { cart: cart._id })
+
       res.status(201).send(signed) // Envio la JSON Web Token
     } catch (err) {
       res.status(500).send(err.message)

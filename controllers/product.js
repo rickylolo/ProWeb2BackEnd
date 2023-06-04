@@ -1,4 +1,5 @@
 const Products = require('../models/Product')
+const Users = require('../models/User')
 
 const product = {
   get: async (req, res) => {
@@ -16,6 +17,12 @@ const product = {
     const product = new Products(req.body)
     try {
       await product.save()
+
+      // Actualiza la propiedad "products" del usuario con el nuevo ID del producto
+      await Users.findByIdAndUpdate(product.user, {
+        $push: { products: product._id },
+      })
+
       res.status(201).send('Producto Registrado correctamente')
     } catch (err) {
       res.status(500).send(err.message)
