@@ -13,7 +13,7 @@ const categoryRoutes = require('./routes/category')
 const app = express()
 
 //Especifico el puerto a utilizar
-const port = 3000
+const port = process.env.PORT || 3000
 
 // Especifico que express use JSON para el body
 app.use(express.json())
@@ -30,7 +30,7 @@ mongoose.connect(
   'mongodb+srv://user:SPt2EjQXKV3iSNxS@proweb2.djh2qpr.mongodb.net/?retryWrites=true&w=majority'
 )
 
-// Cualquier otra ruta que no este definida araroja un status 404 page not found
+// Cualquier otra ruta que no este definida arroja un status 404 page not found
 app.get('*', (req, res) => {
   res.status(404).send('Esta página no existe')
 })

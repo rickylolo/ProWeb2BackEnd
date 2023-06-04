@@ -1,9 +1,17 @@
 const mongoose = require('mongoose')
 
-const Categories = mongoose.model('Category',{
-    name:{type:String, required:true},
-    description:{type:String, required:true},
-    user_ID:{type:String, required:true}
+const Schema = mongoose.Schema
+
+const CategorySchema = new Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+  ],
 })
+const Categories = mongoose.model('Category', CategorySchema)
 
 module.exports = Categories
