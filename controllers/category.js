@@ -2,14 +2,24 @@ const Categories = require('../models/Category')
 
 const Category = {
   get: async (req, res) => {
-    const { id } = req.params
-    const category = await Categories.findOne({ _id: id })
-    res.status(200).send(category)
+    try {
+      const { id } = req.params
+      const category = await Categories.findOne({ _id: id }).populate(
+        'products'
+      )
+      res.status(200).send(category)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   },
 
   list: async (req, res) => {
-    const category = await Categories.find()
-    res.status(200).send(category)
+    try {
+      const categories = await Categories.find().populate('products')
+      res.status(200).send(categories)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   },
 
   create: async (req, res) => {

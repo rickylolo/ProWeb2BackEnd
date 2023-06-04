@@ -32,14 +32,48 @@ const User = {
 
   //Obtener datos del usuario
   get: async (req, res) => {
-    const { id } = req.params
-    const user = await Users.findOne({ _id: id }) //Obtener datos con un id
-    res.status(200).send(user)
+    try {
+      const { id } = req.params
+      const user = await Users.findOne({ _id: id })
+        .populate('reviews')
+        .populate('lists')
+        .populate('products')
+        .populate({
+          path: 'cart',
+          populate: {
+            path: 'list',
+            populate: {
+              path: 'products.product',
+            },
+          },
+        })
+
+      res.status(200).send(user)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   },
 
   list: async (req, res) => {
-    const users = await Users.find() //Encontrar todos los usuarios
-    res.status(200).send(users)
+    try {
+      const users = await Users.find()
+        .populate('reviews')
+        .populate('lists')
+        .populate('products')
+        .populate({
+          path: 'cart',
+          populate: {
+            path: 'list',
+            populate: {
+              path: 'products.product',
+            },
+          },
+        })
+
+      res.status(200).send(users)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   },
 
   create: async (req, res) => {

@@ -11,6 +11,7 @@ const CategorySchema = new Schema({
       ref: 'Product',
     },
   ],
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 const Categories = mongoose.model('Category', CategorySchema)
 

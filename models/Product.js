@@ -14,6 +14,12 @@ const ProductSchema = new Schema({
       ref: 'Review',
     },
   ],
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+    },
+  ],
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 

@@ -4,7 +4,6 @@ const cart = require('../controllers/cart')
 
 router.get('/cart', cart.list)
 router.get('/cart/:id', cart.get)
-router.post('/cart', cart.create)
 router.put('/cart/:id', cart.update)
 router.delete('/cart/:id', cart.destroy)
 

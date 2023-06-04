@@ -13,6 +13,7 @@ const ListSchema = new Schema({
       quantity: { type: Number },
     },
   ],
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 
 const Lists = mongoose.model('List', ListSchema)

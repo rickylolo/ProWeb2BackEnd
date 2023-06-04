@@ -5,13 +5,25 @@ const Products = require('../models/Product')
 const review = {
   get: async (req, res) => {
     const { id } = req.params
-    const review = await Reviews.findOne({ _id: id })
-    res.status(200).send(review)
+    try {
+      const review = await Reviews.findOne({ _id: id })
+        .populate('user')
+        .populate('product')
+      res.status(200).send(review)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   },
+
   list: async (req, res) => {
-    const review = await Reviews.find()
-    res.status(200).send(review)
+    try {
+      const reviews = await Reviews.find().populate('user').populate('product')
+      res.status(200).send(reviews)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   },
+
   create: async (req, res) => {
     const { user, product } = req.body
 
@@ -34,7 +46,7 @@ const review = {
       })
 
       // Actualiza la propiedad "reviews" del producto con el nuevo ID del producto
-      await Reviews.findByIdAndUpdate(review.product, {
+      await Products.findByIdAndUpdate(review.product, {
         $push: { reviews: review._id },
       })
 
