@@ -1,6 +1,7 @@
 // Mis modulos de terceros
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 // Guardo mis rutas
 const cartRoutes = require('./routes/cart')
@@ -12,9 +13,10 @@ const userRoutes = require('./routes/user')
 
 // Creo mi aplicación express
 const app = express()
+app.use(cors())
 
 //Especifico el puerto a utilizar
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 
 // Especifico que express use JSON para el body
 app.use(express.json())
