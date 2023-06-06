@@ -48,7 +48,7 @@ const Category = {
     const { id } = req.params
     const category = await Categories.findOne({ _id: id })
     if (category) {
-      await user.remove()
+      await category.remove()
     }
     res.sendStatus(204)
   },
