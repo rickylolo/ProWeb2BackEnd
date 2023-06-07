@@ -20,7 +20,7 @@ const User = {
         const isMatch = await bcrypt.compare(user.password, isUser.password) // Aqui uso una funcion del bcrypt para comparar contraseña debido a que esta ya esta encriptada en la base de datos
         if (isMatch) {
           const signed = signToken(isUser._id) // Si finalmente hace match significa que el usuario ingreso satisfactoriamente
-          res.status(200).send(signed) // Y regresamos el JSON Web Token
+          res.status(200).json({ JSONWToken: signed })
         } else {
           res.status(403).send('No hay usuarios con esas credenciales')
         }
@@ -102,9 +102,26 @@ const User = {
   },
   update: async (req, res) => {
     const { id } = req.params
-    const user = await Users.findOne({ _id: id }) //Obtengo mi usuario con el id
-    Object.assign(user, req.body) // Le asigno los valores del body a ese usuario
-    await user.save() // Lo guardo (se actualizan los datos)
+    const user = await Users.findOne({ _id: id })
+
+    if (!user) {
+      return res.status(404).send('Usuario no encontrado')
+    }
+
+    // Actualiza los campos del usuario con los valores del body
+    Object.assign(user, req.body)
+
+    if (req.body.password) {
+      const newSalt = await bcrypt.genSalt()
+      const newHashedPassword = await bcrypt.hash(req.body.password, newSalt)
+
+      // Actualiza la contraseña y el salt en la base de datos
+      user.password = newHashedPassword
+      user.salt = newSalt
+    }
+
+    await user.save() // Guarda los cambios en el usuario actualizado
+
     res.sendStatus(204)
   },
   destroy: async (req, res) => {
