@@ -37,11 +37,22 @@ const Category = {
   },
 
   update: async (req, res) => {
-    const { id } = req.params
-    const category = await Categories.findOne({ _id: id })
-    Object.assign(category, req.body)
-    await category.save()
-    res.sendStatus(204)
+    try {
+      const { id } = req.params
+      const category = await Categories.findOneAndUpdate(
+        { _id: id },
+        req.body,
+        { new: true }
+      )
+
+      if (!category) {
+        return res.status(404).json({ error: 'Categoría no encontrada' })
+      }
+
+      res.status(200).json(category)
+    } catch (error) {
+      res.status(500).json({ error: 'Error al actualizar la categoría' })
+    }
   },
 
   destroy: async (req, res) => {
