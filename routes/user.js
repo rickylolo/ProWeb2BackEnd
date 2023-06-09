@@ -15,5 +15,6 @@ router.post('/user/login', user.login)
 router.post('/user', user.create)
 router.put('/user/:id', user.update) // Authentification()
 router.delete('/user/:id', user.destroy) // Authentification()
+router.post('/user/addCart', user.addProductToCart) // Authentification()
 
 module.exports = router

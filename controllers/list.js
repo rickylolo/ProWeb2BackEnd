@@ -44,13 +44,29 @@ const list = {
   },
 
   update: async (req, res) => {
-    const { id } = req.params
-    const list = await Lists.findOne({ _id: id })
-    Object.assign(list, req.body)
-    await list.save()
-    res.sendStatus(204)
-  },
+    try {
+      const { id } = req.params
+      const { product, quantity } = req.body
 
+      const list = await Lists.findOne({ _id: id })
+
+      // Buscar el índice del producto en la lista
+      const productIndex = list.products.findIndex(
+        (item) => item.product.toString() === product
+      )
+
+      // Actualizar la cantidad del producto
+      if (productIndex !== -1) {
+        list.products[productIndex].quantity = quantity
+      }
+
+      await list.save()
+      res.sendStatus(204)
+    } catch (error) {
+      console.error('Error al actualizar la lista:', error)
+      res.sendStatus(500)
+    }
+  },
   destroy: async (req, res) => {
     const { id } = req.params
     try {

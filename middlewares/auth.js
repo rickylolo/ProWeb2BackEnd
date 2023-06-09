@@ -15,21 +15,7 @@ function Authentification() {
     algorithms: ['HS256'],
   })
 
-  // Ejemplo de middleware
-  const findAndAssignUser = async (req, res, next) => {
-    try {
-      const user = await User.findById(req.user._id)
-      if (!user) {
-        return res.status(401).end()
-      }
-      req.user = user
-      next()
-    } catch (e) {
-      next(e)
-    }
-  }
-
-  const isAuthenticated = express.Router().use(validateJwt, findAndAssignUser) // Aqui junto mi validador y mi ejemplo de middleware
+  const isAuthenticated = express.Router().use(validateJwt) // Aqui junto mi validador y mi ejemplo de middleware
   return isAuthenticated // Regreso mi middleware completo
 }
 
