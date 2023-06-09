@@ -135,7 +135,10 @@ const User = {
       // Guardar los cambios en la lista del carrito
       await list.save()
 
-      res.status(200).send('Producto agregado al carrito exitosamente')
+      // Populando la lista actualizada con los productos
+      await list.populate('products.product')
+
+      res.status(200).json(list)
     } catch (err) {
       res.status(500).send(err.message)
     }

@@ -36,7 +36,7 @@ const product = {
         $push: { products: product._id },
       })
 
-      res.status(201).send('Producto Registrado correctamente')
+      res.status(201).send(product)
     } catch (err) {
       res.status(500).send(err.message)
     }
@@ -45,7 +45,7 @@ const product = {
   update: async (req, res) => {
     const { id } = req.params
     const product = await Products.findOne({ _id: id })
-    Object.assign(user, req.body)
+    Object.assign(product, req.body)
     await product.save()
     res.sendStatus(204)
   },
