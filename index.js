@@ -19,7 +19,8 @@ app.use(cors())
 const port = process.env.PORT || 3001
 
 // Especifico que express use JSON para el body
-app.use(express.json())
+app.use(express.json({limit: '25mb'}));
+app.use(express.urlencoded({limit: '25mb'}));
 
 // Agrego mis rutas para crear los endpoints de las entidades
 app.use('/api', cartRoutes)
@@ -28,6 +29,8 @@ app.use('/api', listRoutes)
 app.use('/api', productRoutes)
 app.use('/api', reviewRoutes)
 app.use('/api', userRoutes)
+
+
 
 mongoose.set('strictQuery', false)
 //Mi conexión mongoose
